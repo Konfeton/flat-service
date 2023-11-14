@@ -17,16 +17,16 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class Flat {
     @Id
-    @GeneratedValue
     private Long id;
 
-    private String city;
-    private String street;
+    private String address;
     private int numberOfRooms;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private int year;
     private int floor;
     private int numberOfFloors;
+    private String photo;
     @Enumerated(EnumType.STRING)
     private Walling walling;
     @Embedded
@@ -39,7 +39,7 @@ public class Flat {
     private Currency currency;
 
     private LocalDateTime createdAt;
-    private LocalDateTime lastTimeUpdated;
+    private LocalDateTime lastTimeUp;
 
 
     @ManyToOne
