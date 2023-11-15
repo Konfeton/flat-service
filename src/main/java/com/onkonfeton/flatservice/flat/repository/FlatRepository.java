@@ -3,6 +3,7 @@ package com.onkonfeton.flatservice.flat.repository;
 import com.onkonfeton.flatservice.flat.controller.Params;
 import com.onkonfeton.flatservice.model.Flat;
 import com.onkonfeton.flatservice.model.enums.Walling;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,7 +22,7 @@ public interface FlatRepository extends JpaRepository<Flat, Long> {
             "(:#{#params.year[1]} IS NULL OR f.year < :#{#params.year[1]}) AND " +
             "(:#{#params.walling} IS NULL OR f.walling IN :walling) AND " +
             "(:#{#params.city} IS NULL OR f.address LIKE %:#{#params.city}%)")
-            List<Flat> findByParams(@Param("params")Params params, @Param("walling") Walling[] walling);
+            List<Flat> findByParamsAndPagesAndSort(@Param("params")Params params, @Param("walling") Walling[] walling, Pageable pageable);
 
 }
 

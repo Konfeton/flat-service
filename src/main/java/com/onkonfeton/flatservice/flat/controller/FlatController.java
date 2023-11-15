@@ -2,15 +2,10 @@ package com.onkonfeton.flatservice.flat.controller;
 
 import com.onkonfeton.flatservice.flat.service.FlatService;
 import com.onkonfeton.flatservice.model.Flat;
-import com.onkonfeton.flatservice.model.enums.Walling;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import lombok.Setter;
-import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/flats")
@@ -32,7 +27,9 @@ public class FlatController {
                                   @RequestParam(required = false) Integer minYear,
                                   @RequestParam(required = false) Integer maxYear,
                                   @RequestParam(required = false) String[] walling,
-                                  @RequestParam(required = false) String city) {
+                                  @RequestParam(required = false) String city,
+                                  @RequestParam(required = true) int page,
+                                  @RequestParam(required = false) String order) {
 
         Params params = new Params();
         params.setPrice(new Integer[]{minPrice, maxPrice});
@@ -43,7 +40,9 @@ public class FlatController {
         params.setWalling(walling);
         params.setCity(city);
 
-        return flatService.findByParams(params);
+
+
+        return flatService.findByParamsAndPagesAndSort(params, page, order);
     }
 
 }
