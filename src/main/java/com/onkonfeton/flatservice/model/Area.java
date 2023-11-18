@@ -1,18 +1,20 @@
 package com.onkonfeton.flatservice.model;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Area {
-    private double totalArea;
-    private double livingArea;
-    private double kitchenArea;
+    @Column(name = "total_area")
+    private double total;
+    @Column(name = "living_area")
+    private double living;
+    @Column(name = "kitchen_area")
+    private double kitchen;
 }
+
+

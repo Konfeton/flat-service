@@ -4,17 +4,19 @@ package com.onkonfeton.flatservice.model;
 import com.onkonfeton.flatservice.model.enums.Currency;
 import com.onkonfeton.flatservice.model.enums.Walling;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class Flat {
     @Id
     private Long id;
@@ -41,8 +43,21 @@ public class Flat {
     private LocalDateTime createdAt;
     private LocalDateTime lastTimeUp;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Flat flat)) return false;
+
+        return getId().equals(flat.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
+
 }

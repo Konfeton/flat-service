@@ -15,8 +15,8 @@ public interface FlatRepository extends JpaRepository<Flat, Long> {
             "(:#{#params.price[0]} IS NULL OR f.price > :#{#params.price[0]}) AND " +
             "(:#{#params.price[1]} IS NULL OR f.price < :#{#params.price[1]}) AND " +
             "(:#{#params.numberOfRooms} IS NULL OR f.numberOfRooms IN :#{#params.numberOfRooms}) AND"+
-            "(:#{#params.area[0]} IS NULL OR f.area.totalArea > :#{#params.area[0]}) AND " +
-            "(:#{#params.area[1]} IS NULL OR f.area.totalArea < :#{#params.area[1]}) AND " +
+            "(:#{#params.area[0]} IS NULL OR f.area.total > :#{#params.area[0]}) AND " +
+            "(:#{#params.area[1]} IS NULL OR f.area.total < :#{#params.area[1]}) AND " +
             "(:#{#params.resale} IS NULL OR f.resale = :#{#params.resale}) AND " +
             "(:#{#params.year[0]} IS NULL OR f.year > :#{#params.year[0]}) AND " +
             "(:#{#params.year[1]} IS NULL OR f.year < :#{#params.year[1]}) AND " +
