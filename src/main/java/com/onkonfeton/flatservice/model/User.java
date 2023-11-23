@@ -3,7 +3,6 @@ package com.onkonfeton.flatservice.model;
 import com.onkonfeton.flatservice.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class User {
     @Id
-    @GeneratedValue
     private Long id;
 
     private String name;
@@ -34,14 +31,22 @@ public class User {
     @ElementCollection(targetClass = Role.class)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    Set<Role> roles;
+    private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Set<Flat> flats;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    Set<Flat> flats;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
 
+        return getId().equals(user.getId());
+    }
 
-
-
-
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

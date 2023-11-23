@@ -28,6 +28,7 @@ public class Flat {
     private int year;
     private int floor;
     private int numberOfFloors;
+    @Column(length = 350)
     private String photo;
     @Enumerated(EnumType.STRING)
     private Walling walling;
