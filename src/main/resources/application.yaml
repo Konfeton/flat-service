@@ -4,7 +4,6 @@ spring:
     username: root
     password: root
 
-
   jpa:
     generate-ddl: true
     hibernate:
@@ -12,6 +11,6 @@ spring:
 
 logging:
   level:
-    org:
-      hibernate:
-        SQL: DEBUG
+    root: info
+
+dataRefreshRate: PT30S
