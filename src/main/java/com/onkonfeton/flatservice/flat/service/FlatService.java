@@ -32,10 +32,14 @@ public class FlatService {
     private FlatRepository flatRepository;
     @Autowired
     FlatDTOConverter flatDTOConverter;
-    private final int DEFAULT_PAGE_SIZE = 10;
+    private final int DEFAULT_PAGE_SIZE = 9;
 
-    public Flat findById(Long id) {
-        return flatRepository.findById(id).orElseThrow();
+    public FlatDTO findById(Long id) {
+        FlatDTO flatDTO = flatDTOConverter.toDTO(flatRepository.findById(id).orElseThrow());
+        double currOfficialRate = getCurrOfficialRate();
+        flatDTO.getPrice().setConvertedPrice(flatDTO.getPrice().getAmount() * currOfficialRate);
+        flatDTO.getPrice().setConvertedCurrency(Currency.BYN);
+        return flatDTO;
     }
 
     public void save(Flat flat) {
@@ -66,11 +70,12 @@ public class FlatService {
         }
 
         Page<Flat> flatPage = flatRepository.findByParamsAndPagesAndSort(params, wallings, pageable);
+        double currOfficialRate = getCurrOfficialRate();
         List<FlatDTO> flats = flatPage.map(el -> flatDTOConverter.toDTO(el))
                 .map(flatDTO -> {
                     flatDTO.setPage(new com.onkonfeton.flatservice.dto.onliner.Page(pageable.getPageSize(), flatPage.getSize(), pageable.getPageNumber(), flatPage.getTotalPages()));
                     flatDTO.getPrice().setConvertedCurrency(Currency.BYN);
-                    convertPriceToBYN(flatDTO);
+                    flatDTO.getPrice().setConvertedPrice(flatDTO.getPrice().getAmount() * currOfficialRate);
                     return flatDTO;
                 })
                 .stream().collect(Collectors.toList());
@@ -78,31 +83,23 @@ public class FlatService {
         return flats;
     }
 
-    private FlatDTO convertPriceToBYN(FlatDTO flatDTO){
+    private double getCurrOfficialRate() {
         HttpRequest httpRequest = null;
+        HttpResponse<String> response = null;
         try {
             httpRequest = HttpRequest.newBuilder()
                     .GET()
                     .uri(new URI("https://api.nbrb.by/exrates/rates/431"))
                     .header("Accept", "*/*")
                     .build();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        HttpClient client = HttpClient.newHttpClient();
-        HttpResponse<String> response = null;
-        try {
+
+            HttpClient client = HttpClient.newHttpClient();
             response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         JsonObject jsonObject = new Gson().fromJson(response.body(), JsonObject.class);
-        double curOfficialRate = jsonObject.get("Cur_OfficialRate").getAsDouble();
-        int priceInUSD = flatDTO.getPrice().getAmount();
-        flatDTO.getPrice().setConvertedPrice(priceInUSD*curOfficialRate);
-        return flatDTO;
+        return jsonObject.get("Cur_OfficialRate").getAsDouble();
     }
 
 }

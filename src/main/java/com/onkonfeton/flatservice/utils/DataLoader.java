@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,6 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -42,8 +40,8 @@ public class DataLoader {
         this.userService = userService;
         this.apartmentConverter = apartmentConverter;
     }
-
-//    @Scheduled(fixedDelayString = "${dataRefreshRate}")
+//TODO rework method
+    @Scheduled(fixedDelayString = "${dataRefreshRate}")
     public void load() throws IOException, InterruptedException, URISyntaxException {
         HttpResponse<String> response = sendGetRequest("https://r.onliner.by/sdapi/pk.api/search/apartments?order=created_at%3Adesc");
         Gson gson = new GsonBuilder()

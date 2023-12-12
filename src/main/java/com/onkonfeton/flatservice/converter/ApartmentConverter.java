@@ -42,6 +42,8 @@ public class ApartmentConverter {
             }
         };
 
+
+
         typeMap.addMappings(mapper -> mapper.using(toAmount).map(ApartmentDTO::getPrice, Flat::setPrice));
 
         Converter<Price, Currency> toCurrency = new AbstractConverter<Price, Currency>() {

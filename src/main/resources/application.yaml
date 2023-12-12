@@ -13,4 +13,4 @@ logging:
   level:
     root: info
 
-dataRefreshRate: PT30S
+dataRefreshRate: PT60S

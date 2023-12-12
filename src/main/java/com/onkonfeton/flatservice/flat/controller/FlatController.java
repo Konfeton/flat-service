@@ -1,30 +1,27 @@
 package com.onkonfeton.flatservice.flat.controller;
 
 import com.onkonfeton.flatservice.dto.FlatDTO;
-import com.onkonfeton.flatservice.flat.exception.AppException;
 import com.onkonfeton.flatservice.flat.service.FlatService;
-import com.onkonfeton.flatservice.model.Flat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/flats")
+@RequestMapping("/api/v1/flats")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FlatController {
     @Autowired
     private FlatService flatService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public FlatDTO getById(@PathVariable Long id) {
         try {
-            Flat flatFromDb = flatService.findById(id);
-            return new ResponseEntity<>(flatFromDb, HttpStatus.OK);
+            FlatDTO flatFromDb = flatService.findById(id);
+            return flatFromDb;
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(new AppException(HttpStatus.NOT_FOUND.value(), "no flat with id " + id + " found" ), HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 
@@ -53,5 +50,7 @@ public class FlatController {
 
         return flatService.findByParamsAndPagesAndSort(params, page, order);
     }
+
+
 
 }
