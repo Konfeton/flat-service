@@ -51,6 +51,4 @@ public class FlatController {
         return flatService.findByParamsAndPagesAndSort(params, page, order);
     }
 
-
-
 }

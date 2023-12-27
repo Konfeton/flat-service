@@ -96,7 +96,8 @@ public class FlatService {
             HttpClient client = HttpClient.newHttpClient();
             response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | URISyntaxException | InterruptedException e) {
-            throw new RuntimeException(e);
+            //todo redo
+            return 3.13f;
         }
         JsonObject jsonObject = new Gson().fromJson(response.body(), JsonObject.class);
         return jsonObject.get("Cur_OfficialRate").getAsDouble();
