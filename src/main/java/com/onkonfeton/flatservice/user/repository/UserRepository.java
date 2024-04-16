@@ -1,7 +1,12 @@
 package com.onkonfeton.flatservice.user.repository;
 
-import com.onkonfeton.flatservice.model.User;
+import com.onkonfeton.flatservice.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 }

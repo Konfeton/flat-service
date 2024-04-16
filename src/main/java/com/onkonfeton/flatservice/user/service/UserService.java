@@ -1,18 +1,13 @@
 package com.onkonfeton.flatservice.user.service;
 
-import com.onkonfeton.flatservice.model.User;
-import com.onkonfeton.flatservice.user.repository.UserRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
-    private final UserRepository userRepository;
+import com.onkonfeton.flatservice.user.model.User;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+import java.util.Optional;
 
-    public void save(User user){
-        userRepository.save(user);
-    }
+public interface UserService {
+
+    void save(User user);
+
+    Optional<User> findByEmail(String email);
 }

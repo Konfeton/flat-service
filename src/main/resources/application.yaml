@@ -1,16 +1,12 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/flats_db
-    username: root
-    password: root
-
+  profiles:
+    default: dev
   jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  devtools:
+    livereload:
+      enabled: false
 
-logging:
-  level:
-    root: info
-
-dataRefreshRate: PT60S
+jwt:
+  secret: vXBYJAXpsiMo6UUQsaeVztvjyQ/vwlHi+mXRb30dadf1H8SbZ38NfUXW2r01Sn2T
+  lifetime: 10m
