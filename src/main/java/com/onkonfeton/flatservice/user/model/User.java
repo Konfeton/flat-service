@@ -1,7 +1,5 @@
 package com.onkonfeton.flatservice.user.model;
 
-import com.onkonfeton.flatservice.flat.model.EvaluatedFlats;
-import com.onkonfeton.flatservice.flat.model.Flat;
 import com.onkonfeton.flatservice.user.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,14 +7,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "Users")
+@Entity(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue
@@ -34,16 +34,16 @@ public class User implements UserDetails {
     private Role role;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "Favorite_flats",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "flat_id")
-    )
-    private Set<Flat> favoriteFlats;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "Favorite_flats",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "flat_id")
+//    )
+//    private Set<Flat> favoriteFlats;
 
-    @OneToMany(mappedBy = "expert", fetch = FetchType.LAZY)
-    private Set<EvaluatedFlats> evaluatedFlats;
+//    @OneToMany(mappedBy = "user")
+//    private List<Marks> marks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

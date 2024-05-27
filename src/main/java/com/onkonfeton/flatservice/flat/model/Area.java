@@ -1,13 +1,15 @@
 package com.onkonfeton.flatservice.flat.model;
 
 import jakarta.persistence.Column;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.Embeddable;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Embeddable
 public class Area {
     @Column(name = "total_area")
     private int total;

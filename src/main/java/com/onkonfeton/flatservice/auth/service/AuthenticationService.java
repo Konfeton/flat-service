@@ -43,6 +43,9 @@ public class AuthenticationService {
         );
 
         User user = userService.findByEmail(authRequest.getEmail()).orElseThrow();
+        if (!user.isActive()){
+            throw new UserNotActiveException("Пользователь заблокирован");
+        }
         String token = jwtService.generateToken(user);
         return new JwtResponse(token);
 

@@ -6,19 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
-@Entity(name = "Flats")
+@Entity(name = "flats")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Flat {
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE)
     private Long id;
+    @Column(name = "price")
+    private double price;
     @Column(name = "number_of_rooms")
     private int numberOfRooms;
     @Column(name = "year")
@@ -27,31 +27,25 @@ public class Flat {
     private int floor;
     @Column(name = "number_of_floors")
     private int numberOfFloors;
-    @Column(name = "photo",length = 350)
-    private String photo;
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
-    @Column(name = "resale")
-    private boolean resale;
-    @Column(name = "walling")
-    private String walling;
     @Embedded
     private Area area;
-    @Embedded
-    private Location location;
-    @Column(name = "price")
-    private double price;
-    @Column(name = "url")
-    private String url;
+    @Column(name = "photo",length = 350)
+    private String photo;
+
+
+    @Column(name = "number_of_views")
+    private int numberOfViews;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "last_time_up")
     private LocalDateTime lastTimeUp;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    @ToString.Exclude
-    private Seller seller;
+    @OneToOne(mappedBy = "flat", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private FlatParams flatParams;
+
+
 
     @Override
     public boolean equals(Object o) {
