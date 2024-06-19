@@ -188,7 +188,7 @@ public class FlatServiceImpl implements FlatService {
 
         Map<Long, Double> flatsWithIntegralPreference = getIntegralPreferences(importanceOf, averageMarks);
 
-        System.out.println(flatsWithIntegralPreference);
+        System.out.println("квартиры и интегральные показатели: " + flatsWithIntegralPreference);
 
         HashMap<Long, Double> sorted = flatsWithIntegralPreference.entrySet().stream()
                 .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
@@ -196,8 +196,10 @@ public class FlatServiceImpl implements FlatService {
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (e1, e2) -> e1,
-                        HashMap::new
+                        LinkedHashMap::new
                 ));
+
+        System.out.println("sorted: " + sorted);
 
         List<Flat> flats = new ArrayList<>();
 
@@ -316,21 +318,4 @@ public class FlatServiceImpl implements FlatService {
         double priceOfOneMark = 1.0 / sum;
         return priceOfOneMark;
     }
-
-    private long getTotalRecords(CriteriaBuilder builder, List<Predicate> predicates) {
-        CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
-        Root<Flat> countRoot = countQuery.from(Flat.class);
-        countQuery.select(builder.count(countRoot));
-        countQuery.where(builder.and(predicates.toArray(new Predicate[0])));
-
-        return em.createQuery(countQuery).getSingleResult();
-    }
-
-    private int getTotalPages(long totalRecords) {
-        return (int) (totalRecords / DEFAULT_PAGE_SIZE);
-    }
-
-
-
-
 }

@@ -17,6 +17,9 @@ public class MarksDto {
     private Integer walling;
     private Integer timeToMetro;
     private Integer timeToMall;
+    private Integer timeToClinic;
+    private Integer timeToKindergarten;
+    private Integer timeToSchool;
     private Integer district;
     private Integer address;
 

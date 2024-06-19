@@ -39,18 +39,28 @@ public class LikedFlatsService {
 
 
         Optional<LikedFlats> liked = likedFlatsRepository.findById(id);
-        LikedFlats lastViewed;
+        LikedFlats likedFlat;
         if (liked.isPresent()){
-            lastViewed = liked.get();
-            lastViewed.setTimestamp(LocalDateTime.now());
+            likedFlat = liked.get();
+            likedFlat.setTimestamp(LocalDateTime.now());
         }else {
-            lastViewed = new LikedFlats(
+            likedFlat = new LikedFlats(
                     id,
                     user,
                     flat,
                     LocalDateTime.now()
             );
         }
-        return likedFlatsRepository.save(lastViewed);
+        return likedFlatsRepository.save(likedFlat);
+    }
+
+    public void delete(Principal principal, long flatId) {
+        User user = userService.findByEmail(principal.getName()).orElseThrow();
+        LikedFlatsKey id = new LikedFlatsKey(user.getId(), flatId);
+
+
+        Optional<LikedFlats> liked = likedFlatsRepository.findById(id);
+        likedFlatsRepository.delete(liked.orElseThrow());
+
     }
 }

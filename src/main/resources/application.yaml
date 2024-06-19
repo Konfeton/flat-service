@@ -9,4 +9,4 @@ spring:
 
 jwt:
   secret: vXBYJAXpsiMo6UUQsaeVztvjyQ/vwlHi+mXRb30dadf1H8SbZ38NfUXW2r01Sn2T
-  lifetime: 30m
+  lifetime: 60m

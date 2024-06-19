@@ -31,6 +31,13 @@ public class LikedFlatsController {
         return new ResponseEntity<>(new ResponseDTO(saved.getId().getUserId(), saved.getId().getFlatId()), HttpStatus.CREATED);
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteLike(Principal principal, @RequestBody RequestDTO request){
+        likedFlatsService.delete(principal, request.getFlatId());
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<FlatWithoutParams>> getLastLiked(Principal principal){
         List<Flat> likedFlats = likedFlatsService.getLikedFlats(principal);
